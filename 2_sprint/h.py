@@ -1,36 +1,13 @@
 def is_correct_bracket_seq(instance):
     """функция принимает скобочную последовательность"""
-    step_dict = dict()
+    # базово, чтобы ключи были и пары нужные
+    step_dict = {'{': 1, '}': 1,
+                 '(': 1, ')': 1,
+                 '[': 1, ']': 1,
+                 }
+
     for item in instance:
-        if item in ('{', '(', '['):
-            if item in step_dict.keys():
-                step_dict[item] += 1
-            else:
-                step_dict[item] = 1
-
-
-
-    # факт наличия пары
-    pairs_trigger = {'{}' : False,
-                     '()' : False,
-                     '[]' : False,
-                     }
-
-    if '{' in step_dict.keys():
-        if '}' in step_dict.keys():
-            pairs_trigger['{}'] = True
-
-    if '(' in step_dict.keys():
-        if ')' in step_dict.keys():
-            pairs_trigger['()'] = True
-
-    if '[' in step_dict.keys():
-        if ']' in step_dict.keys():
-            pairs_trigger['[]'] = True
-
-
-    for k, v in pairs_trigger.items():
-        if v is True:
+        step_dict[item] += 1
 
 
 
@@ -43,14 +20,6 @@ def is_correct_bracket_seq(instance):
 
 
 
-
-
-
-
-
-
-
 instance = input().strip()
-print(f'instance {instance}')
 res = is_correct_bracket_seq(instance)
 print(res)
