@@ -21,17 +21,17 @@ class MyQueueSized:
     def push(self, x):
         "добавить число x в очередь"
         "При превышении допустимого размера очереди нужно вывести «error»"
-        if self.size() + 1 > self.queue_size:
+        if len(self.elements) + 1 > self.queue_size:
             print('error')
         else:
             self.elements.append(x)
-            print(x)
+
 
     def pop(self):
         "удалить число из очереди и вывести на печать"
         "для пустой очереди нужно вывести «None»"
-        if self.size() > 0:
-            res_pop = self.elements.pop()
+        if len(self.elements) > 0:
+            res_pop = self.elements.pop(0)
             print(res_pop)
         else:
             print('None')
@@ -39,8 +39,8 @@ class MyQueueSized:
     def peek(self):
         "напечатать первое число в очереди"
         "для пустой очереди нужно вывести «None»"
-        if self.size() > 0:
-            res_peek = self.elements[-1]
+        if len(self.elements) > 0:
+            res_peek = self.elements[0]  # первое число
             print(res_peek)
         else:
             print('None')
@@ -48,7 +48,7 @@ class MyQueueSized:
     def size(self):
         "вернуть размер очереди"
         res_size = len(self.elements)
-        return res_size
+        return print(res_size)
 
 
 def read_input():
