@@ -44,14 +44,23 @@ def recursion_logic():
         else:
             #print('data.counter_flag')
             data.counter_flag += 1
-            first = data.first
-            second = data.second
-            #print(f'first {first}, second {second}')
-            data.result_commit_count = first + second
-            new_second = data.result_commit_count
 
-            data.first = second
-            data.second = new_second
+            # МНОГО ПАМЯТИ, НО БЫСТРО
+
+            # first = data.first
+            # second = data.second
+            # data.result_commit_count = first + second
+            # new_second = data.result_commit_count
+            #
+            # data.first = second
+            # data.second = new_second
+
+
+            # МАЛО ПАМЯТИ, НО ЧУТЬ ПОДОЛЬШЕ
+
+            data.result_commit_count = data.first + data.second
+            data.first = data.second
+            data.second = data.result_commit_count
 
             data.n -= 1
             recursion_logic()
@@ -100,11 +109,11 @@ if __name__ == '__main__':
     new_res_string = ''
     flag = False
     str_res = str(res)
-    len_res = len(str(res))
+    len_res = len(str_res)
     if len_res > data.k:
         start = len_res - data.k
 
-        for letter in str(res)[start:]:
+        for letter in str_res[start:]:
             if letter == '0' and flag is False:
                 pass
             else:
