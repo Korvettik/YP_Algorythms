@@ -7,8 +7,8 @@ class Data:
 
         self.first = None
         self.second = None
-
         self.result_commit_count = 1
+
 
 
 
@@ -28,21 +28,18 @@ def recursion_logic():
     if data.n >= 0:
 
         if data.counter_flag == 0:
-            #print('data.counter_flag == 0')
             data.counter_flag += 1
             data.first = 1
             data.n -= 1
             recursion_logic()
 
         elif data.counter_flag == 1:
-            #print('data.counter_flag == 1')
             data.counter_flag += 1
             data.second = 1
             data.n -= 1
             recursion_logic()
 
         else:
-            #print('data.counter_flag')
             data.counter_flag += 1
 
             # МНОГО ПАМЯТИ, НО БЫСТРО
@@ -61,6 +58,9 @@ def recursion_logic():
             data.result_commit_count = data.first + data.second
             data.first = data.second
             data.second = data.result_commit_count
+
+            # ЧТО-то СРЕДНЕЕ
+
 
             data.n -= 1
             recursion_logic()
@@ -95,16 +95,13 @@ if __name__ == '__main__':
     data = Data()
     data.n, data.k = read_input()
 
-    #print(data.n, data.k)
 
     recursion_logic()
 
     k_new = data.k
     for _ in range(data.k):
         k_new *= 10
-        #print(k_new)
     res = data.result_commit_count % k_new
-    #print(f'res {res}')
 
     new_res_string = ''
     flag = False
