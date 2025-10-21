@@ -62,22 +62,24 @@ class Queue:
     def pop_front(self):
         if self.is_empty():
             print('error')
-        x = self.queue[self.head]
-        self.queue[self.head] = None
-        self.head = (self.head + 1) % self.max_m
-        self.size -= 1
-        print(x)
+        else:
+            x = self.queue[self.head]
+            self.queue[self.head] = None
+            self.head = (self.head + 1) % self.max_m
+            self.size -= 1
+            print(x)
 
 
     # вывести последний  элемент дека и удалить его. Если дек был пуст, то вывести «error». ====================
     def pop_back(self):
         if self.is_empty():
             print('error')
-        x = self.queue[self.tail]
-        self.queue[self.tail] = None
-        self.tail = (self.tail - 1) % self.max_m
-        self.size -= 1
-        print(x)
+        else:
+            x = self.queue[self.tail]
+            self.queue[self.tail] = None
+            self.tail = (self.tail - 1) % self.max_m
+            self.size -= 1
+            print(x)
 
 
 if __name__ == '__main__':
