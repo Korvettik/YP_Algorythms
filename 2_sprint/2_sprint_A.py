@@ -5,7 +5,7 @@ class Queue:
 
     def __init__(self, m):
         self.queue = [None] * m   # элементы очереди --- ОБЫЧНЫЙ СПИСОК
-        self.head = 0  # индекс, по которому нужно извлекать элемент, если очередь не пустая;
+        self.head = 1  # индекс, по которому нужно извлекать элемент, если очередь не пустая;
         self.tail = 0  # индекс, по которому нужно добавлять элемент, если в очереди есть место;
         self.max_m = m  # максимально возможное количество элементов в очереди
         self.size = 0  # размер очереди
@@ -63,8 +63,8 @@ class Queue:
         if self.is_empty():
             print('error')
         x = self.queue[self.head]
-        self.head = (self.head + 1) % self.max_m
         self.queue[self.head] = None
+        self.head = (self.head + 1) % self.max_m
         self.size -= 1
         print(x)
 
@@ -73,9 +73,9 @@ class Queue:
     def pop_back(self):
         if self.is_empty():
             print('error')
-        self.tail = (self.tail - 1) % self.max_m
         x = self.queue[self.tail]
         self.queue[self.tail] = None
+        self.tail = (self.tail - 1) % self.max_m
         self.size -= 1
         print(x)
 
@@ -90,40 +90,26 @@ if __name__ == '__main__':
         command = input().strip().split()
 
         if command[0] == 'push_back':
-            print(command)
+            #print(command)
             queue.push_back(command[1])
-            print(queue.queue)
-            print()
+            #print(queue.queue)
+            #print()
         elif command[0] == 'push_front':
-            print(command)
+            #print(command)
             queue.push_front(command[1])
-            print(queue.queue)
-            print()
+            #print(queue.queue)
+            #print()
         elif command[0] == 'pop_front':
-            print(command)
+            #print(command)
             queue.pop_front()
-            print(queue.queue)
-            print()
+            #print(queue.queue)
+            #print()
         elif command[0] == 'pop_back':
-            print(command)
+            #print(command)
             queue.pop_back()
-            print(queue.queue)
-            print()
+            #print(queue.queue)
+            #print()
 
     # print(queue.queue)
 
 
-# 4
-# 4
-# push_back 1
-# push_back 2
-# push_front 3
-# push_front 4
-
-
-# 4
-# 4
-# push_front 861
-# push_front -819
-# pop_back
-# pop_back
