@@ -38,8 +38,8 @@ class Queue:
     # Для успешных запросов push_back(x) и push_front(x) ничего выводить не надо.
     def push_back(self, value):
         if self.size != self.max_m:
-            self.queue[self.tail] = value  # записываем на место хвоста
-            self.tail = (self.tail + 1) % self.max_m  # хвост сдвигаем вправо
+            self.tail = (self.tail + 1) % self.max_m
+            self.queue[self.tail] = value
             self.size += 1
         else:
             print('error')
@@ -51,9 +51,8 @@ class Queue:
     # вывести «error».
     def push_front(self, value):
         if self.size != self.max_m:
-            self.queue[self.head] = value  # записываем на место головы
-            self.head = (self.head - 1) % self.max_m  # голову сдвигаем влево
-            self.tail = self.head + 1  # перемещаем хвост ---
+            self.head = (self.head - 1) % self.max_m
+            self.queue[self.head] = value
             self.size += 1
         else:
             print('error')
@@ -61,25 +60,22 @@ class Queue:
 
     # вывести первый элемент дека и удалить его. Если дек был пуст, то вывести «error».
     def pop_front(self):
-
         if self.is_empty():
             print('error')
-        x = self.queue[self.head]  # вырезаем и перезаписываем на ноль голову
+        x = self.queue[self.head]
+        self.head = (self.head + 1) % self.max_m
         self.queue[self.head] = None
-        self.head = (self.head - 1) % self.max_m  # голова сдвигается влево
-        self.tail = self.head - 1  # перемещаем хвост ---
         self.size -= 1
         print(x)
 
 
     # вывести последний  элемент дека и удалить его. Если дек был пуст, то вывести «error». ====================
     def pop_back(self):
-
         if self.is_empty():
             print('error')
-        x = self.queue[self.tail]  # вырезаем хвост
+        self.tail = (self.tail - 1) % self.max_m
+        x = self.queue[self.tail]
         self.queue[self.tail] = None
-        self.tail = (self.tail + 1) % self.max_m  # раз он сократился, двигаем его вправо
         self.size -= 1
         print(x)
 
