@@ -28,7 +28,9 @@ def broken_search(nums, target) -> int:
             print(index_middle)
             return index_middle
 
-        elif nums[index_middle] < target: # искомый элемент следует искать в левой половине
+        elif (nums[index_middle] <= nums[index_left] <= target
+              or target <= nums[index_middle] <= nums[index_left]
+              or nums[index_left] <= target <= nums[index_middle]): # искомый элемент следует искать в левой половине
             index_right = index_middle
 
         else:  # иначе следует искать в правой половине
