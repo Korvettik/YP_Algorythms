@@ -18,21 +18,48 @@ import random
 # Если же и штрафы совпадают, то первым будет тот, у которого логин идёт раньше в алфавитном (лексикографическом) порядке.
 
 
-# быстрая сортировка
+# # быстрая сортировка
+# def partition(array, pivot):
+#     left = [x for x in array if x < pivot]
+#     center = [x for x in array if x == pivot]
+#     right = [x for x in array if x > pivot]
+#     return left, center, right
+#
+# def quicksort(array):
+#     if len(array) < 2:
+#         return array   # массивы с 0 или 1 элементами фактически отсортированы
+#     else:
+#         pivot = random.choice(array)
+#         left, center, right = partition(array, pivot)
+#         return quicksort(left) + center + quicksort(right)
+
+
+# модицифицированная быстрая сортировка
 def partition(array, pivot):
-    left = [x for x in array if x < pivot]
-    center = [x for x in array if x == pivot]
-    right = [x for x in array if x > pivot]
-    return left, center, right
+    """логика разделения списка на 2 части"""
+    # слева будут лучшие, правее худшие
+    for user in array:
+        # сравнение по баллам
+        if user[1] > pivot[1]:
+
+        # сравнение по щтрафам
+
+        # сравнение по имени
+
+
+
+
+
+
 
 def quicksort(array):
+    """общая логика + слияние"""
     if len(array) < 2:
         return array   # массивы с 0 или 1 элементами фактически отсортированы
     else:
-        pivot = random.choice(array)
-        left, center, right = partition(array, pivot)
-        return quicksort(left) + center + quicksort(right)
-
+        pivot = random.choice(array)  # берем любого user
+        left, center, right = partition(array, pivot)  # запускаем деление на 2 группы слева и справа
+        return quicksort(left) + center + quicksort(right)  # обратным ходом склеиваем
 
 
 if __name__ == '__main__':
