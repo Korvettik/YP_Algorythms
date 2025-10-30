@@ -1,11 +1,37 @@
-#
+#  https://contest.yandex.ru/contest/23815/run-report/147008075/
 
 # -- ПРИНЦИП РАБОТЫ ---
-
+# В соответствии с условием задачи применяем метод быстрой сортировки.
+# Так как условие сравнения не по одному критерию, а по трем, то мы модифицируем
+# логику сортировки между левыой группой, центральной-опорной и правой группой.
+# Для этого мы сравниваем иерархично. Сначала по самому главному признаку - баллам.
+# Высокий балл - налево (начало списка, самые лучшие ученики), направо наихудшие,
+# в центр те, кто равен баллу опорного элемента. Но не сразу туда добавляем,
+# а все-таки проверяем по второму признаку - штрафным очкам. Кто меньше - все-таки
+# налево, кто больше - направао. А если равно опорному? тогда проверяем по имени -
+# кто первый по алфавиту, того налево, кто после - направо.  Те, кто и тут равен,
+# можно добавить в центр. Но это условие фактически уже равно полностью по 3м
+# категориям сравнени опорному ченику, поэтому тут можно пропустить помещение в
+# центр, а просто сразу в начале сравнивать, чтобы по дереву сравнения в пустую не
+# ходить. Таким образом на каждом этапе рекурсивной итерации мы будем делить
+# входящий список на 2 части лучших и худших относительно опорного элемента.
+# Соответственно, когда нам выпадет удачный опорный элемент - списки начнут
+# действительно двигаться и сортироваться.
 
 # -- ДОКАЗАТЕЛЬСТВА КОРРЕКТНОСТИ --
+# Применяется метод быстрой сортировки с выпадающим опорным элементом.
+# Сравнение каждого элемента с опорным происходит не по 1 признаку, а по иерархии
+# 3х. Таким образом, каждая рекурсивная итерация соответствует условию задачи.
+
+
 
 # -- ОПРЕДЕЛЕНИЕ СЛОЖНОСТИ АЛГОРИТМА --
+# Метод быстрой сортировки в худшем случае употребит O(n) памяти,
+# если неудачно выберется оборный элемент, т.е. нужно будет проходиться
+# практически по всем элементам и хранить их как глубину рекурсии
+
+
+
 
 
 import random
@@ -16,22 +42,6 @@ import random
 # при сравнении двух участников выше будет идти тот, у которого решено больше задач.
 # При равенстве числа решённых задач первым идёт участник с меньшим штрафом.
 # Если же и штрафы совпадают, то первым будет тот, у которого логин идёт раньше в алфавитном (лексикографическом) порядке.
-
-
-# # быстрая сортировка
-# def partition(array, pivot):
-#     left = [x for x in array if x < pivot]
-#     center = [x for x in array if x == pivot]
-#     right = [x for x in array if x > pivot]
-#     return left, center, right
-#
-# def quicksort(array):
-#     if len(array) < 2:
-#         return array   # массивы с 0 или 1 элементами фактически отсортированы
-#     else:
-#         pivot = random.choice(array)
-#         left, center, right = partition(array, pivot)
-#         return quicksort(left) + center + quicksort(right)
 
 
 # модицифицированная быстрая сортировка
@@ -45,33 +55,42 @@ def partition(array, pivot):
 
     # слева будут лучшие, правее худшие
     for user in array:
-        #print(f'user {user}')
-        # сравнение по баллам
-        if user[1] > pivot[1]:
-            left.append(user)
-        elif user[1] == pivot[1]:
 
-            # сравнение по штрафам
-            if user[2] > pivot[2]:
+        if user == pivot:
+            center.append(user)
+        else:
+            user_score = int(user[1])
+            pivot_score = int(pivot[1])
+
+            user_penalty = int(user[2])
+            pivot_penalty = int(pivot[2])
+
+            # сравнение по баллам
+            if user_score > pivot_score:
                 left.append(user)
-            elif user[2] == pivot[2]:
+            elif user_score == pivot_score:
 
-                # сравнение по имени
-                if user[0] < pivot[0]:
+                # сравнение по штрафам
+                if user_penalty < pivot_penalty:
                     left.append(user)
-                elif user[0] == pivot[0]:
-                    center.append(user)
+                elif user_penalty == pivot_penalty:
 
-                elif user[0] > pivot[0]:
+                    # сравнение по имени
+                    if user[0] < pivot[0]:
+                        left.append(user)
+                    elif user[0] == pivot[0]:
+                        #center.append(user)
+                        pass
+                    elif user[0] > pivot[0]:
+                        right.append(user)
+
+
+                elif user_penalty > pivot_penalty:
                     right.append(user)
 
-
-            elif user[2] < pivot[2]:
+            elif user_score < pivot_score:
                 right.append(user)
-
-        elif user[1] < pivot[1]:
-            right.append(user)
-
+    #print(f'left {left}\ncenter {center}\nright {right}\n\n')
     return left, center, right
 
 
@@ -81,7 +100,7 @@ def quicksort(array):
 
     # массивы с 0 или 1 элементами фактически отсортированы
     if len(array) < 2:
-        #print(f'array {array}')
+        #print(f'array < 2  {array}')
         return array
     else:
         pivot = random.choice(array)  # берем любого user
@@ -96,7 +115,5 @@ if __name__ == '__main__':
         user_list.append(input().strip().split())  # читаем параметры пользователя
 
     #print(user_list)
-
-    #print(*quicksort(user_list), sep='\n')
 
     print(*list(item[0] for item in quicksort(user_list)), sep='\n')
