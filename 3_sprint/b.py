@@ -35,6 +35,10 @@ def word_generator(input_string_deque, result, line=''):
 
             word_generator(input_string_deque.copy(), result, line + char)
 
+            # когда отработает рекурсия, мы снова вернемся в
+            # предыдущую рекурсию внутрь ее цикла for, чтобы запустить
+            # новую рекурсию
+
 
 
 
