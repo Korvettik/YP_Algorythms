@@ -1,47 +1,56 @@
-def generate_words(command):
-    """генерирует возможные комбинации по строке, предполагаю дубли"""
-    print(command)
+# не сами пишем, а импортируем существующий встроенный метод
+# создания объекта ДЕК - одновременно и стек и очередь
+from collections import deque
 
-    result = []
-
-    buttons = {
-        '2': ('a', 'b', 'c'),
-        '3': ('d', 'e', 'f'),
-        '4': ('g', 'h', 'i'),
-        '5': ('j', 'k', 'l'),
-        '6': ('m', 'n', 'o'),
-        '7': ('p', 'q', 'r', 's'),
-        '8': ('t', 'u', 'v'),
-        '9': ('w', 'x', 'y', 'z')
-        }
+buttons = {
+    2: 'abc',
+    3: 'def',
+    4: 'ghi',
+    5: 'jkl',
+    6: 'mno',
+    7: 'pqrs',
+    8: 'tuv',
+    9: 'wxyz'
+}
 
 
-    def backtrack(word):
-        # Базовый случай
-        if len(word) == len(command):  # количество букв результирующего слова равно числу символов команды
-            result.append(word)
-            return
+def word_generator(input_string_deque, result, line=''):
 
-        for num in command:
-            for letter in buttons[num]:
+    # базовый случай - выход из рекурсии
+    if len(input_string_deque) == 0:  # вырезаемые копии дека пусты
+        #print(line)
+        result.append(line)  # сохраняем собранную комбинацию
+        return
 
-            if index < len(buttons[num]):
+    else:
+        # берем и вырезаем слева дека элемент
+        digit = int(input_string_deque.popleft())
 
-                backtrack(word += buttons[num][index], )
+        # по словарю, для каждой буквы этого элемента
+        for char in buttons.get(digit):
+            # рекурсивно используем эту же функцию, но передаем в нее
+            # 1) копию уменьшенного слева дека
+            # 2) общий результат
+            # 3) накопительную букву
+
+            word_generator(input_string_deque.copy(), result, line + char)
+
+            # когда отработает рекурсия, мы снова вернемся в
+            # предыдущую рекурсию внутрь ее цикла for, чтобы запустить
+            # новую рекурсию
 
 
 
 
 
-    backtrack('', 0)
 
-    return result
+input_string = input().strip()  # то, что ввели
+result = list()  # итоговый список
+input_string_deque = deque(input_string)  # на основе итерируемого объекта создаем скоростной дек
+
+#старт
+word_generator(input_string_deque, result = result)
+
+print(*result, sep=' ')
 
 
-
-# На вход подается строка, состоящая из цифр 2-9 включительно.
-# Длина строки не превосходит 10 символов.
-
-command = list(input().strip())  # строка команд без повторов
-
-print(*generate_words(command), sep=' ')
