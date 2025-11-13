@@ -24,26 +24,31 @@ def find_relevant_documents(n, letter_list, m, query_letter_list):
     # Если в словаре не будет найден какой-либо ключ, то он будет создан со значением по умолчанию  - тут dict - пустой словарь.
     # т.е. это будет словарь словарей    {'i': {0: 1}, 'love': {0: 1}, 'coffee': {0: 1, 1: 1}}
     index = defaultdict(dict)
-    print(f'index {index}')
+    #print(f'index {index}')
 
     # проходимся по кортежам (номер предложения, список слов предложения)
     for doc_id, letter_words in enumerate(letter_list):
 
         # Автоподсчет количества встречаемых слов (словарь, где ключ - уникальное слово, значение - сколько раз оно встретилось в подаваемом предложении)
         letter_word_counts_dict = Counter(letter_words)
-        print(f'letter_word_counts_dict {letter_word_counts_dict}')
+        #print(f'letter_word_counts_dict {letter_word_counts_dict}')
 
         # добавляем в общий словарь статистику для слова + где и сколько раз оно встречается
         for word, count in letter_word_counts_dict.items():
             index[word][doc_id] = count
-            print(index)
+            #print(index)
+
+    # итого мы имеем что-то такое
+    # index = {'i': {0: 1}, 'love': {0: 1}, 'coffee': {0: 1, 1: 1}}
 
 
 
-    results = []
+
+    results = []  # будущий общий результат
+
+    # берем уникальные (множество) слова ПЕРВОГО запроса
     for letter_query_set in query_letter_list:
-        # множество для уникальных слов запроса
-        print(letter_query_set)
+        #print(letter_query_set)
 
         # Собираем все документы, содержащие хотя бы одно слово из запроса
         candidate_docs = set()
