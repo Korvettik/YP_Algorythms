@@ -29,7 +29,23 @@ def find_relevant_documents(n, letter_list, m, query_letter_list):
 
         relevant_list.append(query_relevant)  # собираем результат в виде словаря для первого запроса
 
+
+    # Вывод на экран
     print(f'relevant_list {relevant_list}')
+
+    # СОРТИРОВКА
+    # По запросу надо вывести 5 самых релевантных документов
+    # Если нашлось менее пяти документов, то выведите столько, сколько нашлось.
+
+    # Документы с релевантностью 0 выдавать не нужно.
+
+    # Сортировка документов на выдаче производится по убыванию релевантности.
+    # Если релевантности документов совпадают —– то по возрастанию их порядковых номеров в базе (то есть во входных данных).
+
+
+    for query_relevant_dict in relevant_list:
+        #print(*sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5])
+        print(*list(lambda x: x[0] for x in sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5]), sep=' ')
 
 
 
