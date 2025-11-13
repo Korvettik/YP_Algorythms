@@ -31,7 +31,7 @@ def find_relevant_documents(n, letter_list, m, query_letter_list):
 
 
     # Вывод на экран
-    print(f'relevant_list {relevant_list}')
+    #print(f'relevant_list {relevant_list}')
 
     # СОРТИРОВКА
     # По запросу надо вывести 5 самых релевантных документов
@@ -45,7 +45,11 @@ def find_relevant_documents(n, letter_list, m, query_letter_list):
 
     for query_relevant_dict in relevant_list:
         #print(*sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5])
-        print(*list(lambda x: x[0] for x in sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5]), sep=' ')
+        #print(*list(lambda x: x[0] for x in sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5]), sep=' ')
+
+        query_relevant_list = [i[0] for i in sorted(list(query_relevant_dict.items()), key= lambda x: x[1], reverse=True)[:5]]
+        print(*query_relevant_list, sep=' ')
+
 
 
 
@@ -78,7 +82,7 @@ if __name__ == '__main__':
         query_letter_list.append(letter_set)  # записываем предложение запроса как множество со словами
 
 
-    print(f'letter_list {letter_list}')
-    print(f'query_letter_list {query_letter_list}')
+    #print(f'letter_list {letter_list}')
+    #print(f'query_letter_list {query_letter_list}')
 
     find_relevant_documents(n, letter_list, m, query_letter_list)
