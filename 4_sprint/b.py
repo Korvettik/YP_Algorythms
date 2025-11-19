@@ -32,9 +32,16 @@ all_rounds_result = input().strip().split(' ')
 #         right_index -= 1
 
 counter = 0
+rounds = list()
 round_count_dict = defaultdict(int)
 for item in all_rounds_result:
     round_count_dict[item] += 1
+    counter += 1
+    if round_count_dict[0] == round_count_dict[1]:
+        rounds.append(counter)
+    if counter > 1 and any([round_count_dict[0] == 0, round_count_dict[1] == 0]):
+        counter = 1
+print(max(rounds))
 
 
 
