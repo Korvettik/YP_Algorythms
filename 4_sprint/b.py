@@ -11,37 +11,34 @@
 # 9: 5–4
 # 10: 6–4
 
-from collections import defaultdict, Counter
+from collections import defaultdict
 
 
 n = int(input().strip())  # количество раундов
-all_rounds_result = input().strip().split(' ')
-# print(all_rounds_result)
+all_rounds_result = list(map(int, input().strip().split()))
 
+# Используем словарь для хранения первого вхождения каждой разницы
+first_occurrence = defaultdict(int)
+first_occurrence[0] = 0  # Разница 0 перед началом турнира
 
-# left_index = 0
-# right_index = len(all_rounds_result)
-# while left_index != right_index:
-#     together_dict = Counter(all_rounds_result[left_index:right_index])
-#     print(f'together_dict {together_dict}')
-#     if together_dict['0'] == together_dict['1']:
-#         print(len(all_rounds_result[left_index:right_index]))
-#         break
-#     else:
-#         left_index += 1
-#         right_index -= 1
+max_length = 0
+diff = 0  # Разница между количеством 0 и 1
 
-counter = 0
-rounds = list()
-round_count_dict = defaultdict(int)
-for item in all_rounds_result:
-    round_count_dict[item] += 1
-    counter += 1
-    if round_count_dict[0] == round_count_dict[1]:
-        rounds.append(counter)
-    if counter > 1 and any([round_count_dict[0] == 0, round_count_dict[1] == 0]):
-        counter = 1
-print(max(rounds))
+for i in range(1, n + 1):
+    # Обновляем разницу
+    if all_rounds_result[i-1] == 0:
+        diff += 1
+    else:
+        diff -= 1
+
+    # Если такая разница уже встречалась, значит между этими позициями ничья
+    if diff in first_occurrence:
+        max_length = max(max_length, i - first_occurrence[diff])
+    else:
+        # Запоминаем первое вхождение этой разницы
+        first_occurrence[diff] = i
+
+print(max_length)
 
 
 
