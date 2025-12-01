@@ -12,26 +12,32 @@ if LOCAL:
 
 def solution(root) -> bool:
 
-    counter_flag = 0
+    def get_height(node):
+        """Возвращает высоту поддерева, если оно сбалансировано, иначе -1"""
+        if node is None:
+            return 0
 
-    stack = [root]   # хранилище текущего или пары узлов
+        left_height = get_height(node.left)
+        if left_height == -1:
+            return -1
 
-    # итеративный подход --- дергаем все-все элементы в список для анализов
-    while stack:
-        node = stack.pop()   # вырезали, схватили
+        right_height = get_height(node.right)
+        if right_height == -1:
+            return -1
 
-        # если у него были дети --- кладем их в хранилище, для цикличного анализа
-        if node.right:
-            stack.append(node.right)
-            counter_flag += 1
-        if node.left:
-            stack.append(node.left)
-            counter_flag -= 1
+        # Проверяем балансировку текущего узла
+        if abs(left_height - right_height) > 1:
+            return -1
 
-    if counter_flag == 0:
-        return  True
-    else:
-        return  False
+        # Возвращаем высоту текущего поддерева
+        return 1 + max(left_height, right_height)
+
+    return get_height(root) != -1
+
+
+
+
+
 
 
 
