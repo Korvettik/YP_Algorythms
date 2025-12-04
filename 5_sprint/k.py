@@ -10,24 +10,43 @@ if LOCAL:
             self.value = value
 
 
+# def print_range(node, l, r):
+#     nodes_collection = []
+#
+#     def check_node(node, l, r):
+#
+#         if node is None:
+#             return
+#
+#         if l <= node.value <= r:
+#             nodes_collection.append(node.value)
+#
+#
+#         check_node(node.left, l, r)
+#         check_node(node.right, l, r)
+#
+#     check_node(node, l, r)
+#     collection = sorted(nodes_collection)
+#     print(*collection, sep='\n')
+
+
 def print_range(node, l, r):
-    nodes_collection = []
+    if node is None:
+        return
 
-    def check_node(node, l, r):
+    # посещаем только те узлы-деревья, которые МОГУТ содержать требуемый ключ
+    # = т.к. может быть дубль, и > т.к. должно входить в диапазон
+    if node.value >= l:
+        print_range(node.left, l, r)
 
-        if node is None:
-            return
+    # принтуем то, что нашли
+    if l <= node.value <= r:
+        print(node.value)
 
-        if l <= node.value <= r:
-            nodes_collection.append(node.value)
+    # посещаем только те узлы-деревья, которые МОГУТ содержать требуемый ключ
+    if node.value <= r:
+        print_range(node.right, l, r)
 
-
-        check_node(node.left, l, r)
-        check_node(node.right, l, r)
-
-    check_node(node, l, r)
-    collection = sorted(nodes_collection)
-    print(*collection, sep='\n')
 
 
 def test():
