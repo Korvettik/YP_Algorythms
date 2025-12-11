@@ -17,6 +17,8 @@
 import heapq
 
 def make_reach_net():
+    # (1) --- получаем данные и строим смежный список ---
+
     # n - количество вершин
     # m - количество ребер
     n, m = tuple(map(int, input().strip().split()))
@@ -33,7 +35,7 @@ def make_reach_net():
     for _ in range(m):
         u,v,w = tuple(map(int, input().strip().split()))
 
-        # игнорируем такие ребра, так как они бесполезны для остовного дерева
+        # игнорируем такие ребра, так как они бесполезны для остовного дерева (защита от петель)
         if u == v:
             continue
 
@@ -48,40 +50,50 @@ def make_reach_net():
     # print(graph)
 
 
-    # Для графа с одной вершиной
+    # (2) --- для графа с одной вершиной нельзя построить ребер, значит вес 0
     if n <= 1:
         print(0)
         return
 
-    visited = [False] * n
-    max_heap = []
+    # алгоритм Прима
+    # (3) --- создаем кучу и задаем ей текущий максимум ---
+    visited = [False] * n  # создаем список индекс-вершин со статусами False - не посещен, True - посещен
+    # [False, False, False, False]
+    max_heap = []  # список, максимальная куча через отрицательные числа (вес ребер), чтобы получать максимальный
 
-    # Инициализируем первую вершину
-    visited[0] = True
-    for weight, neighbor in graph[0]:
-        if not visited[neighbor]:
-            heapq.heappush(max_heap, (-weight, neighbor))
+    # (3.1) --- начинаем с первой вершины, индекс 0
+    visited[0] = True  # вошли, меняем статус
+    for weight, neighbor in graph[0]:  # просматриваем все ребра (вес, в какую вершину) и добавляем их
+        if not visited[neighbor]:  # смотрим в списке посещенных указанный нам индекс-вершину, и если ее не посещали, то
+            heapq.heappush(max_heap, (-weight, neighbor))  # добавляем в кучу данное ребро. Вес ставим отрицательным.
+            # [(-вес, куда), (-вес, куда)]
 
-    total_weight = 0
-    vertices_in_mst = 1
+    total_weight = 0  # общий вес, т.к. пока только 1 вершина кучи
+    vertices_in_mst = 1  # счетчик посещенных вершин
 
+    # пока в куче есть ребра и пока не все вершины посещены
     while max_heap and vertices_in_mst < n:
-        neg_weight, vertex = heapq.heappop(max_heap)
 
-        if visited[vertex]:
+        # (3.2) --- берем максимальное ребро из кучи
+        neg_weight, vertex = heapq.heappop(max_heap)  #  берется последний кортеж в списке, а он в куче отсортирован. (по модулю самый большой вес)
+
+        if visited[vertex]:  # если вершина, куда ведет максимальный вес, уже посещалась, пропускаем ее
             continue
 
-        weight = -neg_weight
-        visited[vertex] = True
-        total_weight += weight
-        vertices_in_mst += 1
+        # кортеж ребра и ведущий к вершине не посещался
 
-        # Добавляем только рёбра к непосещённым вершинам
+        # (3.3) --- суммируем данные к этой вершине
+        visited[vertex] = True  # отмечаем вершину ребра посещенной
+        weight = -neg_weight  # переводим вес ребра в положительное значение
+        total_weight += weight  # копим общий вес между вершиной и вершиной с ребром к вершине с макисмальным весом
+        vertices_in_mst += 1  # считаем эту вершину
+
+        # (3.4) --- добавляем в общую кучу только рёбра к непосещённым вершинам от текущей вершины с ребром максимального веса
         for w, neighbor in graph[vertex]:
             if not visited[neighbor]:
                 heapq.heappush(max_heap, (-w, neighbor))
 
-    # Проверка связности
+    # (4) --- проверка связности (если все вершины посетим и построим остовное дерево, значит граф связный)
     if vertices_in_mst == n:
         print(total_weight)
     else:
