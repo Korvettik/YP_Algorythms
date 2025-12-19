@@ -8,6 +8,7 @@ for i in range(m):
     u, v = map(int, input().strip().split())
     graph[u - 1].append(v - 1)
     graph[v - 1].append(u - 1)
+# print(graph)
 
 visited = [False] * n
 total_groups = []
@@ -17,7 +18,8 @@ for i in range(n):
     if not visited[i]:
         # начинаем новую компоненту связности
         group = []
-        queue = deque([i])
+        queue = deque([i])  # поначалу тут первый (индекс 0 элемент)
+        # print(list(queue))
         visited[i] = True
 
         # BFS обход
@@ -29,7 +31,7 @@ for i in range(n):
             for neighbor in graph[vertex]:
                 if not visited[neighbor]:
                     visited[neighbor] = True
-                    queue.append(neighbor)
+                    queue.append(neighbor)  # затем сюда кладем индексы смежных вершин
 
         # сортировка в самой группе
         group.sort()
