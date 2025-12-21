@@ -1,4 +1,4 @@
-# https://contest.yandex.ru/contest/25070/run-report/153338991/
+#  https://contest.yandex.ru/contest/25070/run-report/154131879/
 
 # -- ПРИНЦИП РАБОТЫ ---
 """
@@ -26,8 +26,6 @@
 Временная сложность - O(n * m), так как нужно посетить каждую ячейку матрицы-сетки.
 Пространственная сложность - O(n * m), так как нужно хранить значения каждой ячейки.
 """
-
-
 
 from collections import deque
 
@@ -64,19 +62,25 @@ def find_islads():
 def dfs(grid_matrix, i, j, n, m):
     "Функция для обхода острова от заданных координат i, j"
 
-    if i < 0 or i >= n or j < 0 or j >= m or grid_matrix[i][j] != '#':
-        return 0
+    queue = deque([(i, j)])
+    size = 0
 
-    grid_matrix[i][j] = '.'
+    while queue:
+        i, j = queue.popleft()
 
-    size = 1
+        if i < 0 or i >= n or j < 0 or j >= m or grid_matrix[i][j] != '#':
+            continue
 
-    # directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-    # посещаем соседние ячейки в 4 направлениях
-    size += dfs(grid_matrix, i + 1, j, n, m)  # вниз
-    size += dfs(grid_matrix, i - 1, j, n, m)  # вверх
-    size += dfs(grid_matrix, i, j + 1, n, m)  # вправо
-    size += dfs(grid_matrix, i, j - 1, n, m)  # влево
+        grid_matrix[i][j] = '.'
+
+        size += 1
+
+        # directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        # посещаем соседние ячейки в 4 направлениях
+        queue.append((i + 1, j))
+        queue.append((i - 1, j))
+        queue.append((i, j + 1))
+        queue.append((i, j - 1))
 
     return size
 
